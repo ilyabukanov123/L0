@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/ilyabukanov123/L0/internal/cache"
 	"runtime"
 
 	"github.com/ilyabukanov123/L0/internal/db"
@@ -28,16 +29,16 @@ func main() {
 	}
 	_, err = sc.Subscribe("Model_Json",
 		func(message *stan.Msg) {
-			fmt.Println(string(message.Data))
+			//fmt.Println(string(message.Data))
 			order, error := model.UnpackingJson(message.Data) // Вызываем функцию распаковки json в структуру и валидацию
 			if error != nil {
 				fmt.Println("Произошлка ошибка при распаковки json. Повторите передачу сообщения в канал")
 				return
 			}
-			fmt.Println(order.OrderUID)
-			db.Insert(*order)
-			// fmt.Println(order)
-			// fmt.Println(order.OrderUID)
+			db.InsertOrder(*order)
+			cache.NewCache()
+			//cache.GetCache(order.OrderUID)
+
 		})
 	if err != nil {
 		fmt.Println("Произошла ошибка подписки на канал: ", err)
