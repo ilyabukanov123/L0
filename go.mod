@@ -7,6 +7,7 @@ require github.com/nats-io/stan.go v0.10.4
 require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
+	github.com/julienschmidt/httprouter v1.3.0 // indirect
 	github.com/leodido/go-urn v1.2.2 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 )

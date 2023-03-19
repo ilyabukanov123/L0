@@ -2,10 +2,11 @@ package cache
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/ilyabukanov123/L0/internal/db"
 	"github.com/ilyabukanov123/L0/internal/model"
 	"github.com/patrickmn/go-cache"
-	"time"
 )
 
 var Cache *cache.Cache
@@ -16,11 +17,13 @@ func SetCache(uid string, order *model.Order) {
 }
 
 // Функция по получению данных из кэша
-func GetCache(key string) {
+func GetCache(key string) *model.Order {
 	value, found := Cache.Get(key)
 	if found {
-		fmt.Println(value)
+		var order *model.Order = value.(*model.Order) // конвиртируем value в структуру Order
+		return order
 	}
+	return nil
 }
 
 func RestoringTheCache() {

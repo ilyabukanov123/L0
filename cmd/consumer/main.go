@@ -1,12 +1,13 @@
-package main
+package consumer
 
 import (
 	"fmt"
 	"github.com/ilyabukanov123/L0/internal/cache"
-	"runtime"
-
 	"github.com/ilyabukanov123/L0/internal/db"
 	"github.com/ilyabukanov123/L0/internal/model"
+	"github.com/ilyabukanov123/L0/internal/server"
+	"runtime"
+
 	"github.com/nats-io/stan.go"
 )
 
@@ -21,7 +22,7 @@ const (
 // 	Json OrderJson
 // }
 
-func main() {
+func Consumer() {
 	sc, err := stan.Connect(clusterID, clientID, stan.NatsURL("nats://localhost"+port))
 	if err != nil {
 		fmt.Println("Произошла ошибка подключения к каналу")
@@ -37,6 +38,7 @@ func main() {
 			}
 			db.InsertOrder(*order)
 			cache.NewCache()
+			server.Run()
 			//cache.GetCache(order.OrderUID)
 
 		})

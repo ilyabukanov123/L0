@@ -37,7 +37,7 @@ func InsertOrder(orderJson model.Order) {
 	}
 	result, err := db.Exec("insert into JsonOrder (Uid, Json) values ($1, $2)", orderJson.OrderUID, b)
 	if err != nil {
-		fmt.Println("Произошла ошибка при добавлении данных в БД")
+		fmt.Println("Произошла ошибка при добавлении данных в БД. Заказ с таким номером уже существует")
 		return
 	}
 	fmt.Println(result.RowsAffected()) // количество добавленных строк

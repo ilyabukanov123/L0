@@ -59,11 +59,6 @@ type Items struct {
 	Status      int    `json:"status" validate:"required"`
 }
 
-// type OrderModel struct {
-// 	Uid  string
-// 	Json OrderJson
-// }
-
 func validate(orderJson *Order) error {
 	validate := validator.New() // создание объекта валидации
 	if err := validate.Struct(orderJson); err != nil {
