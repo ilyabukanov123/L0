@@ -2,11 +2,11 @@ package consumer
 
 import (
 	"fmt"
+
 	"github.com/ilyabukanov123/L0/internal/cache"
 	"github.com/ilyabukanov123/L0/internal/db"
 	"github.com/ilyabukanov123/L0/internal/model"
 	"github.com/ilyabukanov123/L0/internal/server"
-	"runtime"
 
 	"github.com/nats-io/stan.go"
 )
@@ -33,12 +33,11 @@ func Consumer() {
 			//fmt.Println(string(message.Data))
 			order, error := model.UnpackingJson(message.Data) // Вызываем функцию распаковки json в структуру и валидацию
 			if error != nil {
-				fmt.Println("Произошлка ошибка при распаковки json. Повторите передачу сообщения в канал")
+				fmt.Println("Повторите передачу сообщения в канал")
 				return
 			}
 			db.InsertOrder(*order)
 			cache.NewCache()
-			server.Run()
 			//cache.GetCache(order.OrderUID)
 
 		})
@@ -48,5 +47,6 @@ func Consumer() {
 	}
 	// stan.StartWithLastReceived())
 	// err = sub.Close()
-	runtime.Goexit() // ожидание добавление информации в канал
+	server.Run()
+	// runtime.Goexit() // ожидание добавление информации в канал
 }

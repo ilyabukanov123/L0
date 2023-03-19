@@ -3,13 +3,13 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/ilyabukanov123/L0/internal/cache"
-	"github.com/julienschmidt/httprouter"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
-	"runtime"
+
+	"github.com/ilyabukanov123/L0/internal/cache"
+	"github.com/julienschmidt/httprouter"
 )
 
 /*
@@ -45,6 +45,5 @@ func Order(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
 func Run() {
 	router := httprouter.New()
 	router.GET("/order/:id", Order)
-	log.Fatal(http.ListenAndServe(":8080", router))
-	runtime.Goexit()
+	log.Fatal(http.ListenAndServe(":8070", router))
 }

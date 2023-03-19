@@ -72,6 +72,7 @@ func UnpackingJson(data []byte) (*Order, error) {
 	var order Order
 	err := json.Unmarshal(data, &order) // преобразуем байты из канала в структуру order
 	if err != nil {
+		fmt.Println("Произошлка ошибка при распаковки json")
 		return nil, err
 	}
 	err = validate(&order)
