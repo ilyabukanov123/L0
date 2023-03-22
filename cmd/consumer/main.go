@@ -36,8 +36,8 @@ func Consumer() {
 				fmt.Println("Повторите передачу сообщения в канал")
 				return
 			}
+			cache.SetCache(order.OrderUID, order)
 			db.InsertOrder(*order)
-			cache.NewCache()
 			//cache.GetCache(order.OrderUID)
 
 		})
