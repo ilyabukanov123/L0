@@ -18,20 +18,23 @@ func SetCache(uid string, order *model.Order) {
 
 // Функция по получению данных из кэша
 func GetCache(key string) *model.Order {
-	value, found := Cache.Get(key)
-	if found {
-		var order *model.Order = value.(*model.Order) // конвиртируем value в структуру Order
-		return order
+	if Cache != nil {
+		value, found := Cache.Get(key) // извлекаем кэш под ключю
+		if found {
+			var order *model.Order = value.(*model.Order) // конвиртируем value в структуру Order
+			return order
+		}
 	}
 	return nil
 }
 
 func RestoringTheCache() {
-	orders := db.GetOrder()
+	orders := db.GetOrder() // получаем из БД список заказов
 	if len(orders) == 0 {
 		fmt.Println("В БД нет информации о заказах")
 		return
 	}
+	// перебираем все заказы и засовываем их в кэш
 	for key, value := range orders {
 		SetCache(key, value)
 	}

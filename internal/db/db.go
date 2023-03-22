@@ -29,13 +29,13 @@ func InsertOrder(orderJson model.Order) {
 		panic(err)
 	}
 
-	defer db.Close() // закрываем подключение к БД после завершения работы функции
-	b, err := json.Marshal(orderJson)
+	defer db.Close()                  // закрываем подключение к БД после завершения работы функции
+	b, err := json.Marshal(orderJson) // запаковываем структуру в json
 	if err != nil {
 		fmt.Println("Произошла ошибка конвертации из структуры в JSON", err)
 		return
 	}
-	result, err := db.Exec("insert into JsonOrder (Uid, Json) values ($1, $2)", orderJson.OrderUID, b)
+	result, err := db.Exec("insert into JsonOrder (Uid, Json) values ($1, $2)", orderJson.OrderUID, b) // добавляем данные в бд
 	if err != nil {
 		fmt.Println("Произошла ошибка при добавлении данных в БД. Заказ с таким номером уже существует")
 		return
@@ -64,15 +64,15 @@ func GetOrder() map[string]*model.Order {
 
 	defer db.Close() // закрываем подключение к БД после завершения работы функции
 
-	rows, err := db.Query("select * from JsonOrder")
+	rows, err := db.Query("select * from JsonOrder") // получаем  список всех заказов из БД
 	if err != nil {
 		panic(err)
 	}
-	defer rows.Close()
+	defer rows.Close() // закрываем подключение к БД после завершения работы функции
 
 	orders := make(map[string]*model.Order) // создаем map где ключом будет строка, а значением структура order
 
-	for rows.Next() {
+	for rows.Next() { // перебираем список всех заказов
 		var uid string                     // переменная для хранения uid из БД
 		var jsonOrder string               // переменная для хранения json из БД
 		err := rows.Scan(&uid, &jsonOrder) // считываем строку таблицы
